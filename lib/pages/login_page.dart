@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sistema_login/dados_mock.dart';
+import 'package:sistema_login/pages/home_page.dart'; //import './home_page.dart'
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +15,50 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController senhaController = TextEditingController();
   //variável: true = esconde a senha | false = mostra a senha
   bool esconderSenha = true;
+
+  void entrar(){
+    String email = emailController.text.trim();
+    String senha = senhaController.text;
+
+    if(email.isEmpty || senha.isEmpty){
+      mostrarMensagem('Preencha o e-mail e senha');
+      return;
+    }
+
+    Map<String, String>? usuarioEncontrado;
+
+    for(var usuario in usuarios){
+      if(usuario['email'] == email &&
+        usuario['senha'] == senha ){
+          usuarioEncontrado = usuario;
+          break;
+        }
+    }
+
+    if(usuarioEncontrado == null){
+      mostrarMensagem('E-mail ou senha incorreta');
+      return;
+    }
+
+    String nome = usuarioEncontrado['nome'] ?? 'Usuário';
+
+    Navigator.pushReplacement(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => HomePage(
+          nomeUsuario: nome,
+          emailUsuario: email,
+        ),
+        )
+      );
+
+  }
+
+  void mostrarMensagem(String mensagem){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(mensagem))
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +133,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+
+            const SizedBox(height: 25,),
+
+            ElevatedButton.icon(
+              onPressed: entrar, 
+              icon: const Icon(Icons.login),
+              label: const Text("Entrar"),
+            ),
+
+            OutlinedButton.icon(
+              onPressed: (){}, 
+              icon: const Icon(Icons.person_add),
+              label: const Text("Criar usuário"),
+            )
+
           ],
         ),
       )
