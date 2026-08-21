@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sistema_login/dados_mock.dart';
-import 'package:sistema_login/pages/home_page.dart'; //import './home_page.dart'
+import 'package:sistema_login/pages/home_page.dart';
+import 'cadastro_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -57,6 +58,16 @@ class _LoginPageState extends State<LoginPage> {
   void mostrarMensagem(String mensagem){
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(mensagem))
+    );
+  }
+
+  void abrirCadastro(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context)=>
+        const CadastroPage()
+      ),
     );
   }
 
@@ -143,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
             OutlinedButton.icon(
-              onPressed: (){}, 
+              onPressed: abrirCadastro, 
               icon: const Icon(Icons.person_add),
               label: const Text("Criar usuário"),
             )

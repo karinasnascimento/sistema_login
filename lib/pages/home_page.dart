@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart';
 
 class HomePage extends StatelessWidget {
   final String nomeUsuario;
@@ -7,8 +8,18 @@ class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
     required this.nomeUsuario,
-    required this.emailUsuario
-  })
+    required this.emailUsuario,
+  });
+
+  void sair(BuildContext context){
+    Navigator.pushReplacement(
+      context, 
+      MaterialPageRoute(
+        builder: (context) =>
+        const LoginPage(),
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +61,16 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 20,),
               Text(
                 emailUsuario,
+              ),
+
+              const SizedBox(height: 30,),
+
+              ElevatedButton.icon(
+                onPressed: (){
+                  sair(context);
+                }, 
+                icon: const Icon(Icons.logout),
+                label: const Text('Sair')
               ),
             ],
           ),
